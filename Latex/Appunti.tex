@@ -1,8 +1,44 @@
 \documentclass[12pt, a4paper]{report}
 \usepackage[utf8]{inputenc}
 \input{variables.tex}
+\input{titlePage.tex}  
 \preamble
 
 \begin{document}
+\customTitlePage{Fondamenti dell'Elaborazione di Segnali e Immagini}{Lorenzo Vaccarecci}{Anno Accademico 2024/2025}{Università degli Studi di Genova}
+\newpage
 \tableofcontents
+\chapter{Introduzione}
+\section{Segnali 1D e 2D}
+\subsection{Segnali 1D}
+Un segnale 1D descrive una grandezza fisica che varia nel tempo, e può essere visto come una funzione di una variabile indipendente: 
+\begin{equation*}
+    g = f(t)
+\end{equation*}
+dove $g$ è il valore della grandezza fisica (variabile \textbf{dipendente}), $f$ è la funzione (continua o discreta) e $t$ è la variabile indipendente.\\
+Esempi di segnali 1D sono:
+\begin{itemize}
+    \item Segnali audio: come ad esempio la musica o il parlato.
+    \item Segnali ECG
+    \item Segnali EEG
+    \item Sensori inerziali
+    \item \dots
+\end{itemize}
+\subsection{Segnali 2D}
+Un segnale 2D descrive una grandezza fisica che varia nello spazio, e può essere visto come una funzione di due variabili indipendenti.\\
+Esempi di segnali 2D sono:
+\begin{itemize}
+    \item Immagini: utilizzeremo questo termine per indicare una foto a colori o a scala di grigi (ci concentreremo su queste).
+    \item Immagini biomediche: come ad esempio le radiografie, le ecografie oppure quelle di una risonanza.
+    \item Immagini termiche
+    \item Immagini satellitari
+    \item Immagini microscopiche
+    \item \dots
+\end{itemize}
+Ciò che hanno in comunque tutte queste immagini è che hanno una matrice di pixel che rappresenta qualcosa, nel nostro caso ogni pixel rappresenta l'intensità luminosa nella posizione $(r,c)$ della matrice.
+\section{Segnali a tempo continuo o discreto}
+\subsection{Segnali a tempo continuo}
+Un segnale a tempo continuo è un segnale in cui la variabile indipendente (tempo) può assumere qualsiasi valore in un intervallo continuo.
+\subsection{Segnali a tempo discreto}
+Un segnale a tempo discreto è un segnale in cui la variabile indipendente (tempo) può assumere solo valori discreti.
 \end{document}
