@@ -205,4 +205,65 @@ Moltiplichiamo il segnale $f(t)$ per il treno di impulsi equispaziati e otteniam
     f_{s}(t) = f(t) \cdot \delta_{r}(t) = \sum_{n=-\infty}^{+\infty} f(n\tau) \delta(t-n\tau)
 \end{equation*}
 \chapter{La trasformata di Fourier}
+\section{Introduzione}
+Le funzioni continue e periodiche possono essere rappresentate come somme (pesate) di seni e coseni e grazie alla serie di Fourier possiamo ottenere una rappresentazione alternativa del segnale periodico e uno strumento utile per approssimarlo (con compressione e riduzione del rumore).\\
+\textbf{Perchè Fourier?} Per capire meglio il segnale.
+\begin{center}
+    \begin{figure}[h!]
+        \centering
+        \begin{tikzpicture}
+            \begin{axis}[
+                xlabel={t},
+                ylabel={f(t)},
+                grid=major,
+                axis lines=middle,
+                enlargelimits,
+            ]
+            \addplot[smooth, domain=0:10, samples=100] {sin(deg(x)) + cos(deg(2*x))};
+            \end{axis}
+        \end{tikzpicture}
+        \begin{tikzpicture}
+            \begin{axis}[
+                xlabel={t},
+                ylabel={f(t)},
+                grid=major,
+                axis lines=middle,
+                enlargelimits,
+            ]
+            \addplot[smooth, domain=0:10, samples=100, color=blue] {sin(deg(x))};
+            \addplot[smooth, domain=0:10, samples=100, color=red] {cos(deg(2*x))};
+            \end{axis}
+        \end{tikzpicture}
+        \caption{A sinistra il segnale originale, a destra la sua rappresentazione come somma di una sinusoide e una cosinusoide}
+    \end{figure}    
+\end{center}
+Una funzione continua e periodica può essere descritta attraverso una serie di sinusoidi e possiamo considerare una rappresentazione alternativa del segnale l'insieme dei coefficienti (pesi) dei sinusoidi.
+\begin{center}
+    \textbf{Immagine qui}
+\end{center}
+\section{Matematicamente}
+Consideriamo una funzione $f(t)$ continua e periodica di periodo $\tau$
+\begin{equation*}
+    f(t) = a_{0} + \sum_{k=1}^{+\infty} \left(a_{k} \cos\left(\frac{2\pi k t}{\tau}\right) + b_{k} \sin\left(\frac{2\pi k t}{\tau}\right)\right)
+\end{equation*}
+Dove $a$ e $b$ sono i coefficienti.\\
+Riscriviamo applicando la formula di Eulero $e^{j\theta} = \cos(\theta) + j\sin(\theta)$ dove $j = \sqrt{-1}$ immaginario:
+\begin{equation*}
+    f(t) = \sum_{k=-\infty}^{+\infty} c_{k} e^{j\frac{2\pi k t}{\tau}}
+\end{equation*}
+\begin{equation*}
+    c_{k} = \frac{1}{\tau} \int_{-\frac{\tau}{2}}^{\frac{\tau}{2}} f(t) e^{-j\frac{2\pi k t}{\tau}} dt
+\end{equation*}
+\subsection{Trasformata di Fourier Discreta}
+\textbf{N.B.}: $f(t)$ funzione continua, $f[n]$ funzione discreta.
+\begin{equation*}
+    f[n] = \sum_{k=0}^{N-1} F[k] e^{j\frac{2\pi k n}{N}}
+\end{equation*}
+Dove $F[x]\equiv c_{k}$. La sommatoria è finita perchè nel caso di funzione discreta non mi occorrono infiniti sinusoidi per ricostruire tutti i dettagli.\\
+Data una funzione discreta e finita $f[n]$ con $N$ campioni, la sua \textbf{DFT} è
+\begin{equation*}
+    F(k) = \sum_{n=0}^{N-1} f[n] e^{-j\frac{2\pi k n}{N}}
+\end{equation*}
+\section{Conclusione}
+Nonostante la definizione di DFT appena fornita sia calcolabile ($O(n^{2})$), esistono algoritmi per calcolare la DFT in modo efficiente ($O(n\log_{2}n)$), menzoniamo la Fast Fourier Transform (FFT).
 \end{document}
