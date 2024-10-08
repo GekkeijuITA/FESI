@@ -266,4 +266,51 @@ Data una funzione discreta e finita $f[n]$ con $N$ campioni, la sua \textbf{DFT}
 \end{equation*}
 \section{Conclusione}
 Nonostante la definizione di DFT appena fornita sia calcolabile ($O(n^{2})$), esistono algoritmi per calcolare la DFT in modo efficiente ($O(n\log_{2}n)$), menzoniamo la Fast Fourier Transform (FFT).
+\section{Approfondimento}
+Trasformata di Fourier di una funzione $f(t)$:
+\begin{equation*}
+    F(\omega) = \int_{-\infty}^{+\infty} f(t) e^{-j2\pi\omega t} dt
+\end{equation*}
+E l'inversa:
+\begin{equation*}
+    f(t) = \int_{-\infty}^{+\infty} F(\omega) e^{j2\pi\omega t} d\omega
+\end{equation*}
+\subsection{Proprietà}
+\subsubsection{Linearità}
+Se $h(t)=af(t)+bg(t)$ con $a,b \in \mathbb{C}$ allora:
+\begin{equation*}
+    H(\omega) = aF(\omega)+bG(\omega)
+\end{equation*}
+\subsubsection{Traslazione nel tempo}
+Se $h(t) = f(t-t_{0})$ allora:
+\begin{equation*}
+    H(\omega) = e^{-i2\pi t_{0}\omega}F(\omega)
+\end{equation*}
+\subsubsection{Modulazione - Shift in frequenza}
+Se $h(t) = e^{i2\pi \omega_{0}t}f(t)$ allora:
+\begin{equation*}
+    H(\omega) = F(\omega-\omega_{0})
+\end{equation*}
+\subsection{FT di segnali a valori reali}
+La FT di un segnale a valori reali ha una simmetria speciale:
+\begin{itemize}
+    \item La parte reale è simmetica pari ($f(x)=f(-x)$, rispetto all'asse $y$)
+    \item La parte immaginaria è simmetrica dispari ($f(x)=-f(-x)$, rispetto all'origine)
+\end{itemize}
+\subsection{Coppie "famose"}
+\subsubsection{Rettangolo}
+Nell'intervallo $W$:
+\begin{equation*}
+    F(\omega)=\int_{-\frac{W}{2}}^{\frac{W}{2}} Ae^{-2\pi j\omega t}dt = \ldots = AW\frac{\sin(\pi\omega W)}{\pi\omega W}
+\end{equation*}
+Funzione SINC.
+\subsubsection{Impulso}
+\begin{equation*}
+    F(\omega) = \int_{-\infty}^{+\infty} \delta(t)e^{-2\pi j\omega t}dt = 1
+\end{equation*}
+Perchè $\delta(t)\neq 0 $ se e solo se $t=0$.
+\subsubsection{Impulso centrato in $t_{0}$}
+\begin{equation*}
+    F(\omega) = \int_{-\infty}^{+\infty} \delta(t-t_{0})e^{-2\pi j\omega t}dt = \cos(-2\pi j\omega t_{0})-j\sin(-2\pi j\omega t_{0}) = e^{-2\pi j\omega t_{0}}
+\end{equation*}
 \end{document}
