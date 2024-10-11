@@ -313,4 +313,94 @@ Perchè $\delta(t)\neq 0 $ se e solo se $t=0$.
 \begin{equation*}
     F(\omega) = \int_{-\infty}^{+\infty} \delta(t-t_{0})e^{-2\pi j\omega t}dt = \cos(-2\pi j\omega t_{0})-j\sin(-2\pi j\omega t_{0}) = e^{-2\pi j\omega t_{0}}
 \end{equation*}
+\chapter{Filtraggio delle frequenze (segnali 1D)}
+\section{Introduzione}
+Un filtro è una funzione che lascia passare alcune componenti del segnale e ne elimina altre.\\
+Nel dominio delle frequenze possiamo parlare di:
+\begin{itemize}
+    \item \textbf{Filtri passa basso}: lasciano passare le basse frequenze eliminando le alte.
+    \item \textbf{Filtri passa alto}: lasciano passare le alte frequenze eliminando le basse.
+    \item \textbf{Filtri passa banda}: lasciano passare le frequenze comprese traa due valori.
+\end{itemize}
+\section{Filtrare nel dominio delle frequenze}
+Filtrare  un segnale corrisponde a moltiplicare un filtro $H$ con la Trasformata di Fourier del segnale $f$
+\begin{equation*}
+    F_{\text{filt}}(\omega) = H(\omega)F(\omega)
+\end{equation*}
+\subsection{Schema}
+\begin{center}
+    \begin{tikzpicture}
+        % Nodes
+        \node (f_t) at (0, 0) {$f(t)$};
+        \node[draw, rectangle, minimum height=1cm, minimum width=1.5cm] (filtro_t) at (3, 0) {Filtro $t$};
+        \node (f_filtrato_t) at (6, 0) {$f_{\text{filt}}(t)$};
+        
+        \node[draw, rectangle, minimum height=1cm, minimum width=1.5cm] (FT) at (0, -2) {FT};
+        \node (f_w) at (0, -4) {$F(\omega)$};
+        \node[draw, rectangle, minimum height=1cm, minimum width=1.5cm] (filtro_w) at (3, -4) {Filtro};
+        \node (h_w) at (3, -5.5) {$H(\omega)$};
+        \node (F_filtrato_w) at (6, -4) {$F_{\text{filt}}(\omega)$};
+        
+        \node[draw, rectangle, minimum height=1cm, minimum width=1.5cm] (IFF) at (6, -2) {IFF};
+
+        \node[anchor=south] at (3, -2) (h_t) {$h(t)$};
+        
+        % Arrows
+        \draw[dashed, ->] (f_t) -- (filtro_t);
+        \draw[dashed, ->] (filtro_t) -- (f_filtrato_t);
+        \draw[dashed, ->] (h_t) -- (filtro_t);
+        \draw[->] (f_t) -- (FT);
+        \draw[->] (FT) -- (f_w);
+        \draw[->] (f_w) -- (filtro_w);
+        \draw[->] (filtro_w) -- (F_filtrato_w);
+        \draw[->] (F_filtrato_w) -- (IFF);
+        \draw[->] (IFF) -- (f_filtrato_t);
+        \draw[->] (h_w) -- (filtro_w);
+
+    \end{tikzpicture}
+\end{center}
+\subsection{Filtro ideale}
+Un sistema che annulla "perfettamente" le armoniche in determinati intervalli di frequenza si chiama filtro ideale.
+\subsubsection{Esempio filtro passa basso}
+\begin{equation*}
+    H(\omega)=
+    \begin{cases}
+        A & \lvert \omega \rvert < \omega_{c} \\
+        0 & \text{altrimenti}
+    \end{cases}
+\end{equation*}
+$\omega_{c}$ rappresenta a quale frequenza io voglio tagliare.
+\begin{center}
+    \includegraphics[width=0.28\textwidth]{Immagini/esfiltropassobasso1.png}
+    \includegraphics[width=0.5\textwidth]{Immagini/esfiltropassobasso2.png}
+\end{center}
+Il primo grafico è $H(\omega)$, il secondo è $F(\omega)$ e il terzo è $F_{\text{filt}}(\omega)$.
+\subsection{Filtro Gaussiano}
+Nel tempo:
+\begin{equation*}
+    g(t)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{t^{2}}{2\sigma^{2}}}
+\end{equation*}
+Nelle frequenze:
+\begin{equation*}
+    G(\omega)=e^{-\frac{\omega^{2}}{2\sigma^{2}_{f}}}
+\end{equation*}
+\begin{equation*}
+    \sigma_{f}=\frac{1}{2\pi\sigma}
+\end{equation*}
+Non produce un taglio "netto" delle frequenze indesiderate, più $\sigma$ è grande più il taglia.\\
+\textbf{Ricordo:} $\sum_{t}g(t)=1$
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Immagini/filtrogaussiano.png}
+\end{center}
+\subsection{Filtro Butterworth}
+E' un filtro "liscio" ma con un cut-off più deciso
+\begin{equation*}
+    \lvert H(\omega) \rvert = \frac{1}{\lvert  B_{N}(i\frac{\omega}{\omega_{c}}) \rvert} = \frac{1}{\sqrt{1+\left(\frac{\omega}{\omega_{c}}\right)^{2N}}}
+\end{equation*}
+Più l'ordine $N$ è alto, più il cut-off $\left(\frac{\omega}{\omega_{c}}\right)$ è deciso.
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Immagini/filtroButterworth.png}
+\end{center}
+\section{Rumore}
+La riduzione del rumore avviene tramite filtraggio, di solito passa-alto.
 \end{document}
