@@ -403,4 +403,54 @@ Più l'ordine $N$ è alto, più il cut-off $\left(\frac{\omega}{\omega_{c}}\righ
 \end{center}
 \section{Rumore}
 La riduzione del rumore avviene tramite filtraggio, di solito passa-alto.
+\section{Filtraggio nel tempo}
+\subsection{Convoluzione}
+Consideriamo due funzioni continue $f(t)$ e $g(t)$, la loro convoluzione è definita come:
+\begin{equation*}
+    (f*g)(t) = \int_{-\infty}^{+\infty} f(\tau)g(t-\tau)d\tau
+\end{equation*}
+Dove la funzione $f$ è il filtro e $t$ è il tempo desiderato.\\
+\underline{La convoluzione è commutativa: $f*g=g*f$}.
+\subsection{Teorema di convoluzione}
+\begin{equation*}
+    f(t)*h(t) \iff F(\omega)H(\omega)
+\end{equation*}
+\begin{equation*}
+    f(t)h(t) \iff F(\omega)*H(\omega)
+\end{equation*}
+In altre parole:
+\begin{equation*}
+    \tikzmark{ft}f(t)*\tikzmark{ht}h(t) = \tikzmark{ffilt}f_{\text{filt}}(t) \quad \tikzmark{Fo}F(\omega)\tikzmark{Ho}H(\omega) = \tikzmark{Ffilt}F_{\text{filt}}(t)
+\end{equation*}
+\begin{tikzpicture}[overlay, remember picture]
+    \node (fte) [below of = ffilt, node distance = 4 em, anchor=west]{\footnotesize \textsf{FT}};
+    \draw[-, in=180, out=-90] (ft.south)++(.25em,-.5ex) |- (fte.west);
+    \draw[<-, in=180, out=-90] (Fo.south)++(.25em,-.5ex) |- (fte.east);
+    \node (hte) [below of = ffilt, node distance = 3 em, anchor=west]{\footnotesize \textsf{FT}};
+    \draw[-, in=180, out=-90] (ht.south)++(.25em,-.5ex) |- (hte.west);
+    \draw[<-, in=180, out=-90] (Ho.south)++(.25em,-.5ex) |- (hte.east);
+    \node (ffilte) [above right of = Fo, node distance = 2 em, anchor=west]{\footnotesize \textsf{IFT}};
+    \draw[<-, in=180, out=-90] (ffilt.north)++(1em,2ex) |- (ffilte.west);
+    \draw[-, in=180, out=-90] (Ffilt.north)++(1em,2ex) |- (ffilte.east);
+\end{tikzpicture}
+\subsection{Applicazioni tipiche}
+\begin{itemize}
+    \item \textbf{Ridurre il rumore} (filtri passa basso, nel tempo li chiamiamo filtri di smoothing)
+    \item \textbf{Mettere in evidenza punti di cambiamento "rapido" del segnale} (filtri passa alto, nel tempo li chiamiamo filtri di enhancement)
+\end{itemize}
+\subsection{Convoluzione discreta}
+Con $N$ punti nell'intervallo $[0,T]\rightarrow g[n]$, consideriamo un filtro $f[n]$
+\begin{equation*}
+    (f*g)[n] = \sum_{k=0}^{N-1} f[k]g[n-k] = \sum_{k=0}^{N-1} f[n-k]g[k]
+\end{equation*}
+Una pratica comune nel filtraggio digitale è quella di realizzare filtri di ampiezza finita $W$ (quello che ci interessa studiare) da utilizzare come maschere nell'operazione di filtraggio.
+\subsection{Filtri di enhancement e differenze finite}
+In matematica discreta le differenze finite sono definite come
+\begin{equation*}
+    f'(x) = \frac{f(x+h)-f(x)}{h}
+\end{equation*}
+Solitamente $h=1$.
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Immagini/differenzefinite.png}
+\end{center}
 \end{document}

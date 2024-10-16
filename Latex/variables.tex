@@ -9,7 +9,11 @@
     \usepackage{listings}
     \usepackage{titling}
     \usepackage{pgfplots}
+    \usepackage{tikz}
+    \usetikzlibrary{calc}
     \pgfplotsset{compat=1.18}
     \let\olditemize\itemize
     \renewcommand\itemize{\olditemize\setlength\itemsep{0em}}
 }
+
+\newcommand{\tikzmark}[1]{\tikz[baseline,remember picture] \coordinate (#1) {};}
