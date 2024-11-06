@@ -453,4 +453,50 @@ Solitamente $h=1$.
 \begin{center}
     \includegraphics[width=0.8\textwidth]{Immagini/differenzefinite.png}
 \end{center}
+\subsection{Attenuazione del rumore}
+Si può attenuare il rumore in un segnale usando un filtro passa basso e successivamente filtrare il segnale con un filtro passa alto per mettere in evidenza i punti di cambiamento. Esistono filtri che sono in grado di svolgere entrambi i compiti, per esempio la derivata della Gaussiana (che è una convoluzione tra Gaussiana e filtro passa alto). Il filtro mediano, in particolare, è utile a curare rumore impulsivo che si riscontra quando il segnale presenta valori errati e scorrelati dagli elementi vicini.
+\chapter{Applicazione: Sound processing}
+\section{Come nasce un segnale audio}
+\begin{itemize}
+    \item Il trasduttore elettroacustico (es. microfono) è in grado di tradurre le vibrazioni del suono in  un segnale elettrico
+    \item Il convertitore Analogico-Digitale (ADC) lo trasforma in un segnale digitale applicando campionamento e quantizzazione
+    \item Per l'ascolto è necessario seguire il procedimento opposto
+    \item Alcuni segnali nascono direttamente da un dispositivo elettronico e quindi non necessitano il trasduttore iniziale
+\end{itemize}
+\section{Frequenza del suono}
+L'unità di misura è l'Hertz (Hz) ed è il numero di vibrazioni al secondo.\\
+L'altezza del suono dipende in gran parte dalle frequenze:
+\begin{itemize}
+    \item frequenze alte $\rightarrow$ suono acuto
+    \item frequenze basse $\rightarrow$ suono grave
+\end{itemize}
+Per essere percepite come suono, le vibrazioni devono cadere all'interno di un intervallo compreso tra 20Hz e 20KHz, sopra i 20KHz sono ultrasuoni, sotto i 20Hz infrasuoni.\\
+La gamma di suoni coperta dalla musica è molto più limitata (do grave 65 Hz, do acuto $\sim$8KHz)
+\section{Campionamento}
+\subsection{Teorema del campionamento}
+Per ricostruire il segnale analogico occorre una frequenza di campionamento almeno doppia rispetto alla frequenza massima:
+\begin{equation*}
+    \frac{1}{\tau} > 2\omega_{\text{max}}
+\end{equation*}
+E per ottenere una ricostruzione "ragionevole" del segnale audio occorre una frequenza di campionamento almeno doppia rispetto alla frequenza massima udibile $\omega_{\text{max}}\geq 20\text{KHz}$
+\section{Intensità del suono}
+L'intensità del suono è legata all'ampiezza della vibrazione e si misura in decibel (DB), ha un range di "accettabilità" compreso tra:
+\begin{itemize}
+    \item Soglia di udibilità
+    \item Soglia del dolore (130 DB)
+\end{itemize}
+\section{Short Time Fourier Transform (STFT)}
+Un limite della trasformata di Fourier è che descrive il contenuto "globale" del segnale in termini di frequenza, ma non ci permette di localizzare un fenomento all'interno del segnale (in altre parole: perdo l'ordine nel tempo in cui vengono eseguite le cose).
+\begin{itemize}
+    \item Invece di considerare l'intero segnale, consideriamo porzioni del segnale
+    \item I risultati ottenuti dipendono dalla dimensione dellaa finestra
+    \item Dipendono anche dalla forma (tagli bruschi introducono artefatti)
+    \item La STFT può essere invertita
+\end{itemize}
+\section{Spettrogrammaa}
+E' una rappresentazione bidimensionale del modulo della STFT
+\begin{center}
+    \includegraphics[width=.8\textwidth]{Immagini/spettrogramma.png}
+\end{center}
+\chapter{Immagini digitali}
 \end{document}
