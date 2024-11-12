@@ -499,4 +499,193 @@ E' una rappresentazione bidimensionale del modulo della STFT
     \includegraphics[width=.8\textwidth]{Immagini/spettrogramma.png}
 \end{center}
 \chapter{Immagini digitali}
+Come già accennato, un'immagine digitale è una matrice di pixel, ognuno dei quali rappresenta l'intensità luminosa in una determinata posizione.
+\section{Fourier in 2D}
+\begin{equation*}
+    F(u,v) = \sum_{m=-\infty}^{\infty}\sum_{n=-\infty}^{\infty} f[m,n]\cdot e^{-j2\pi(um+vn)}
+\end{equation*}
+Dove $um$ e $vn$ sono punti nella funzione sinusoidale e $f[m,n]$ è il valore del pixel nella posizione $(m,n)$.
+\section{Operazione di shift}
+Bisogna fare attenzione a questa operazione perchè se l'immagine "esce" dalla griglia, si perde l'informazione per sempre.
+\section{Filtri}
+Come per i segnali 1D, anche alle immagini si possono applicare filtri. Richiameremo alcuni filtri già visti come il filtro ideale e il filtro Gaussiano e introdurremo il filtro smooth e quello di Sobel.
+\subsection{Filtro ideale}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Immagini/filtro2dideale.png}
+\end{center}
+\subsubsection{Effetto Ringing}
+L'effetto ringing è un artefatto visivo che appare come oscillazioni o "anelli" attorno ai contorni o oggetti nell'immagine. La causa di questo effetto è che in Fourier, il filtraggio netto crea transizioni che in spazio producono oscillazioni. Per ridurre questo effetto si può applicare un filtro più graduale.
+\subsection{Filtro Smooth}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Immagini/filtro2dsmooth.png}
+\end{center}
+\subsection{Filtro Gaussiano}
+Il filtro gaussiano è un filtro passa-basso che attenua le alte frequenze e sfoca l'immagine, riducendo il rumore o attenuando i dettagli più fini. E' ottenuto applicando la funzione gaussiana (campana) per creare una media pesata dei pixel.
+\begin{equation*}
+    G(x,y) = \frac{1}{2\pi\sigma^{2}}\cdot e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}
+\end{equation*}
+Dove $\sigma$ controlla l'intensità della sfocatura.
+\subsection{Filtri passa alto}
+Data un'immagine $f$ e un filtro $S$, calcoliamo le differenze finite nelle direzioni $x$ (per catturare le variazioni verticali) e $y$ (per catturare le variazioni orizzontali), il modulo $M$ descrive l'intensità delle variazioni del segnale:
+\begin{equation*}
+    \begin{split}
+        g_{x} &= S_{x} * f \\
+        g_{y} &= S_{y} * f \\
+        M &= \sqrt{g_{x}^{2}+g_{y}^{2}}
+    \end{split}
+\end{equation*}
+Sappiamo che $S_{y} = S$ e $S_{x}=S^{T}$
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Immagini/filtro2dpassaaalto.png}
+\end{center}
+\subsection{Filtro di Sobel}
+E' un filtro utile per rilevare i contorni di un'immagine. Il filtro $S$ è definito come:
+\begin{equation*}
+    S_{y} = \begin{bmatrix}
+        -1 & -2 & -1 \\
+        0 & 0 & 0 \\
+        1 & 2 & 1
+    \end{bmatrix}
+    \quad
+    S_{x} = \begin{bmatrix}
+        -1 & 0 & 1 \\
+        -2 & 0 & 2 \\
+        -1 & 0 & 1
+    \end{bmatrix}
+\end{equation*}
+I contorni (o edge), sono cambiamenti significativi e locali all'interno di un'immagine, tipicamente si verificano in prossimità dei bordi di diverse regioni dell'immagine e non corrispondono necessariamente ai contorni di oggetti reali. Possono essere messi in evidenza con filtri passa alto e un algoritmo semplice è la sogliatura sul modulo del gradiente.
+\section{Colori}
+Per misurare il colore vengono usati due metodi principali:
+\begin{itemize}
+    \item sintesi del colore additiva: si parte dall'assenza di luce (nero) e si aggiungono colori
+    \item sintesi del colore sottrativa: si parte dal bianco e si "eliminano" dei colori per ottenere altri colori
+\end{itemize}
+\subsection{Standardizzazioni}
+\subsubsection{CIE 1931}
+\begin{center}
+    \includegraphics[width=.7\textwidth]{Immagini/cie1931.png}
+\end{center}
+\subsection{Spazi di colore}
+\subsubsection{RGB}
+E' basato su 3 colori primari:
+\begin{itemize}
+    \item Rosso ($R$)
+    \item Verde ($G$)
+    \item Blu ($B$)
+\end{itemize}
+E' un modello addittivo e i valori vanno da 0 a 255.
+\subsubsection{CMY}
+Rappresenta lo stesso spazio di colore del RGB ma utilizza una base alternativa:
+\begin{itemize}
+    \item Ciano ($C$)
+    \item Magenta ($M$)
+    \item Giallo ($Y$)
+\end{itemize}
+E' un modello sottrattivo, è tipico dei dispositivi di stampa.
+\\\textbf{CMYK}\\
+E' un'estensione del modello CMY che aggiunge il nero ($K$) per migliorare la qualità della stampa.
+\subsubsection{HSV}
+Viene usato molto spesso nell'ambito dell'analisi di immagini
+\begin{center}
+    \includegraphics[width=.5\textwidth]{Immagini/hsv.png}
+\end{center}
+\begin{itemize}
+    \item \textbf{Value}: determina la luminosità del colore
+    \item \textbf{Hue}: determina il tipo di colore
+    \item \textbf{Saturation}: determina la distaanza del colore dal grigio più vicino
+\end{itemize}
+\subsection{Conversioni}
+\subsubsection{RGB $\rightarrow$ CMY}
+\begin{equation*}
+    \begin{pmatrix}
+        C \\
+        M \\
+        Y
+    \end{pmatrix} = \begin{pmatrix}
+        1 \\
+        1 \\
+        1
+    \end{pmatrix} - \begin{pmatrix}
+        R \\
+        G \\
+        B
+    \end{pmatrix}
+\end{equation*}
+\subsubsection{RGB $\rightarrow$ HSV}
+\begin{equation*}
+    \begin{split}
+        V &= \frac{(R,G,B)}{3} \\
+        S &= 1 - \min(R,G,B) \\
+        H &= \begin{cases}
+            \theta & \text{se } B \leq G \\
+            2\pi - \theta & \text{altrimenti}
+        \end{cases}
+    \end{split}
+\end{equation*}
+Con \begin{equation*}
+    \theta = \arccos\left(\frac{\frac{1}{2}(R-G)+(R-B)}{\sqrt{(R-G)^{2}+(R-B)(G-B)}}\right)
+\end{equation*}
+Il colore diventa più importante in applicazioni di medio/alto livello come l'identificazione/classificazione di oggetti. La \textbf{segmentazione} di colore consiste nell'identificare all'interno di un'immagine aree caratterizzate  da colore uniforme.
+\section{Operazioni sui pixel}
+Data un'immagine $I$, consideriamo un operatore $T$ che produce un'immagine di output $J$ dove gli elementi hanno subito variazioni nell'intensità luminosa $J(p) = T[I(p)]$
+\begin{center}
+    \includegraphics[width=.6\textwidth]{Immagini/intensitàluminosa.png}
+\end{center}
+Per $s=T(r)$ con $r$ intensità luminosa di un pixel in input.
+\subsection{Negativo}
+\begin{equation*}
+    s = L-1-r
+\end{equation*}
+\subsection{Altre trasformazioni lineari}
+\begin{itemize}
+    \item Offset additivo $\rightarrow J(p)=I(p)+M$
+    \item Riscalatura $\rightarrow J(p)=a\cdot I(p)$
+    \item Trasformata logaritmica $\rightarrow s=c\log(1+r)$
+\end{itemize}
+\subsection{Rappresentazione con istogramma}
+L'istogramma di un'immagine $I$ con valori di intensità nell'intervallo $[0,L-1]$ è una funzione discreta
+\begin{equation*}
+    h(r_{k}) = n_{k}
+\end{equation*}
+Dove $n_{k}$ è il numero di pixel con intensità $r_{k}$.\\
+Per calcolare l'istogramma $H$ con $M$ bin:
+\begin{lstlisting}
+    for each p in I
+        g = I(p);
+        bin_g =  g/bin_size;
+        H(bin_g) = H(bin_g) + 1;
+    end
+\end{lstlisting}
+E per normalizzare:
+\begin{lstlisting}
+    for each b in H
+        H(b) = H(b)/num_pixels;
+    end
+\end{lstlisting}
+Con gli istogrammi si ha perdita di informazione spaziale.
+\subsection{Contrast stretch}
+E' un'operazione molto utile che ci permette di espandere il range di valori di intensità luminosa utilizzati in un'immagine:
+\begin{equation*}
+    J(p) = \frac{L-1}{\min_{p}(I(p))+\max_{p}(I(p))} * \left(I(p)-\min_{p}(I(p))\right)
+\end{equation*}
+\subsection{Trasformazioni geometriche}
+\begin{itemize}
+    \item \textbf{Traslazione}: sposto il pixel in una nuova posizione
+    \item \textbf{Rotazione di un angolo $\theta$ rispetto all'origine}: \begin{equation*}
+        x'=x\cos\theta-y\sin\theta, y'=x\sin\theta+y\cos\theta
+    \end{equation*}
+    \item \textbf{Scala}: \begin{equation*}
+        x'=cx, y'=dy
+    \end{equation*} con $c,d$ fattori di scala. Se uso lo stesso fattore di scala allora è scaling isotropo
+\end{itemize}
+\subsubsection{Mapping diretto}
+Non ho la certezza che il pixel $(x,y)$ abbia associato $T(x,y)$
+\subsubsection{Interpolazione bilineare su mapping inverso}
+Per ogni pixel $p$ dell'immagine in costruzione, calcoliamo il livello di grigio come combinazione bilineare degli elementi dell'immagine di input più vicini al mapping inverso di $p$:
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Immagini/interpolazionebilinearemappinginverso.png}
+\end{center}
+\begin{equation*}
+    g_{\text{NEW}}=(1-t)(1-u)gA+u(1-t)gB+t(1-u)gC+utgD
+\end{equation*}
 \end{document}
